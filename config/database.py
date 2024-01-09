@@ -2,14 +2,14 @@ from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
 
 try:
-    # Connect to the MongoDB Atlas cluster
+   
     client = MongoClient("mongodb+srv://admin:Aaswon1%4034@cluster0.umdlv7g.mongodb.net/?retryWrites=true&w=majority")
 
-    # Access the 'bird_info' database and the 'bird_collection' collection
+  
     db = client.bird_info
     collection_name = db["bird_collection"]
 
-    # Check if the connection is successful
+  
     if client.server_info():
         print("Connected to MongoDB Atlas")
     else:
