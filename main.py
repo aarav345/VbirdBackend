@@ -1,11 +1,14 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware 
 from routes.route import router
+import sys
+
 
 app = FastAPI()
 
 
 app.include_router(router)
+
 
 
 # Enable CORS (Cross-Origin Resource Sharing) to allow requests from your React Native app
