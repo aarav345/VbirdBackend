@@ -3,7 +3,7 @@ fastrlock==0.8.2
 gunicorn==21.2.0
 imageio
 joblib==1.3.2
-keras==2.11.0
+keras
 librosa
 numpy
 pandas==2.1.4
@@ -13,7 +13,7 @@ pymongo==4.6.1
 python-multipart==0.0.6
 scikit-learn==1.3.2
 scikit-maad==1.4.0
-tensorflow==2.15.0
+tensorflow
 tqdm==4.66.1
 uvicorn==0.24.0.post1
 
