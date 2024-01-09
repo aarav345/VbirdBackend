@@ -1,27 +1,20 @@
 fastapi==0.105.0
 fastrlock==0.8.2
 gunicorn==21.2.0
-h11==0.14.0
-h5py @ file:///home/conda/feedstock_root/build_artifacts/h5py_1687263083757/work
 imageio==2.33.1
 joblib==1.3.2
-keras @ file:///home/conda/feedstock_root/build_artifacts/keras_1669020828024/work/keras-2.11.0-py2.py3-none-any.whl
-Keras-Preprocessing @ file:///tmp/build/80754af9/keras-preprocessing_1612283640596/work
+keras=2.11.0
 librosa==0.10.1
 numpy==1.22.4
-pandas @ file:///croot/pandas_1702317985682/work/dist/pandas-2.1.4-cp39-cp39-linux_x86_64.whl#sha256=324122d54922a1f7a8103c955ecfc280ac90ea4d0a9ae7e365d5a477d5f0713e
+pandas==pandas-2.1.4
 pydantic==2.5.2
 pydantic_core==2.14.5
 pymongo==4.6.1
-python-dateutil @ file:///tmp/build/80754af9/python-dateutil_1626374649649/work
 python-multipart==0.0.6
 scikit-learn==1.3.2
 scikit-maad==1.4.0
-tensorboard @ file:///home/conda/feedstock_root/build_artifacts/tensorboard_1673674224265/work/tensorboard-2.11.2-py3-none-any.whl
-tensorboard-data-server @ file:///home/conda/feedstock_root/build_artifacts/tensorboard-data-server_1670043784580/work/tensorboard_data_server-0.6.1-py3-none-manylinux2010_x86_64.whl
-tensorboard-plugin-wit @ file:///home/builder/tkoch/workspace/tensorflow/tensorboard-plugin-wit_1658918494740/work/tensorboard_plugin_wit-1.8.1-py3-none-any.whl
-tensorflow @ file:///home/conda/feedstock_root/build_artifacts/tensorflow-split_1671089268329/work/tensorflow_pkg/tensorflow-2.11.0-cp39-cp39-linux_x86_64.whl
-tensorflow-estimator @ file:///home/conda/feedstock_root/build_artifacts/tensorflow-split_1671089268329/work/tensorflow-estimator/wheel_dir/tensorflow_estimator-2.11.0-py2.py3-none-any.whl
+tensorflow==2.11.0
+tensorflow-estimator==2.11.0
 tensorflow-hub==0.15.0
 tensorflow-io==0.35.0
 tensorflow-io-gcs-filesystem==0.35.0
