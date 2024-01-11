@@ -13,7 +13,9 @@ import librosa
 from sklearn.preprocessing import StandardScaler
 from tensorflow.keras.models import load_model
 import joblib
-
+from pydub import AudioSegment
+from pydub.utils import audioop
+import io
 
 router = APIRouter() 
 
@@ -219,13 +221,13 @@ async def get_bird_info(bird_name: str):
 @router.post("/process_audio/")
 async def process_audio(audio_file: UploadFile):
 
-    file_path = os.path.join(os.getcwd(), "uploaded_audio.wav")
-    with open("uploaded_audio.wav", "wb") as f:
-        f.write(audio_file.file.read())
+    audio_content = audio_file.file.read()
 
-    bird = create_csv_for_audio_file(file_path)
+    if audio_file.content_type != 'audio/mp3':
+        audio = AudioSegment.from_file(io.BytesIO(audio_content), format=audio_file.content_type)
+        audio_content = audio.export(format='mp3').read()
 
-    os.remove(file_path)
+    bird = create_csv_for_audio_file(io.BytesIO(audio_content))
 
     results = {"result": bird}
     return JSONResponse(content=results)
