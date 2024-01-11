@@ -220,13 +220,14 @@ async def get_bird_info(bird_name: str):
 #for receiving audio file from application
 @router.post("/process_audio/")
 async def process_audio(audio_file: UploadFile):
-
     audio_content = audio_file.file.read()
 
-    if audio_file.content_type != 'audio/mp3':
+    # Check the audio format and convert to MP3 if needed
+    if audio_file.content_type != 'audio/mpeg':
         audio = AudioSegment.from_file(io.BytesIO(audio_content), format=audio_file.content_type)
         audio_content = audio.export(format='mp3').read()
 
+    # Process the audio
     bird = create_csv_for_audio_file(io.BytesIO(audio_content))
 
     results = {"result": bird}
