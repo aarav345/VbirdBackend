@@ -16,4 +16,5 @@ scikit-maad==1.4.0
 tensorflow
 tqdm==4.66.1
 uvicorn==0.24.0.post1
+pydub
 
