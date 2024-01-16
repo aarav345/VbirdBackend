@@ -62,7 +62,7 @@ label_to_class_label = {11: 'Apus apus_Common Swift',
 # for processing audio
 def process_audio_generator(file_path, duration=5, target_sr=16000):
     try:
-        y, sr = librosa.load(file_path, sr=target_sr)
+        y, sr = librosa.load(file_path, sr=target_sr, mono=True)
         y_preemphasized = librosa.effects.preemphasis(y)
 
         samples_per_part = int(duration * target_sr)
@@ -167,11 +167,6 @@ def create_csv_for_audio_file(audio_file_path):
     corresponding_class_label = label_to_class_label.get(np.argmax(bird_model.predict(scaler.transform(df))), "Unknown")
     print(np.argmax(bird_model.predict(scaler.fit_transform(df))))
     return corresponding_class_label
-
-
-
-
-
 
 
 
