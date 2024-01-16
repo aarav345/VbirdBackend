@@ -59,33 +59,6 @@ label_to_class_label = {11: 'Apus apus_Common Swift',
  10: 'Numenius arquata_Eurasian Curlew'}
 
 
-# for processing audio
-def process_audio_generator(file_path, duration=5, target_sr=16000):
-    try:
-        y, sr = librosa.load(file_path, sr=target_sr, mono=True)
-        y_preemphasized = librosa.effects.preemphasis(y)
-
-        samples_per_part = int(duration * target_sr)
-        num_segments = len(y_preemphasized) // samples_per_part
-
-        for i in range(num_segments):
-            audio_part = y_preemphasized[i * samples_per_part : (i + 1) * samples_per_part]
-            yield audio_part
-
-    except Exception as e:
-        print(f"Error processing {file_path}: {e}")
-
-
-
-def aggregate_features(features):
-    aggregated_features = {}
-    
-    for feature_name, feature_value in features.items():
-        aggregated_feature = np.mean(feature_value, axis=1)
-        aggregated_features[feature_name] = aggregated_feature
-
-    return aggregated_features
-
 
 def extract_features(audio_part, target_sr=16000):
     try:
@@ -116,7 +89,7 @@ def extract_features(audio_part, target_sr=16000):
 
 def extract_features_for_prediction(audio_file_path):
     try:
-        y, sr = librosa.load(audio_file_path, sr=16000)
+        y, sr = librosa.load(audio_file_path, sr=16000, mono=True)
         y_preemphasized = librosa.effects.preemphasis(y)
 
         features_for_prediction = extract_features(y_preemphasized)
