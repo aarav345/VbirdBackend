@@ -16,6 +16,7 @@ import joblib
 from pydub import AudioSegment
 from pydub.utils import audioop
 from pymongo import ASCENDING
+from bson.json_util import dumps
 
 
 router = APIRouter() 
@@ -221,3 +222,26 @@ async def post_favourite(bird_name: str, user_name: str):
             return JSONResponse(content={"status" : "data already present"})
         else:
             raise HTTPException(status_code=500, detail=str(e))
+        
+
+def individual_serial_fav(fav_birds) -> dict:
+    return {
+        "id": str(fav_birds["_id"]),
+        "bird" : str(fav_birds["bird"])
+        
+    }
+        
+
+@router.get("/get_favourite_birds/{user_name}")
+async def get_favourite(user_name: str):
+    try:
+        user_collection_name = f"{user_name}_favourites"
+        collection = db[user_collection_name]
+        fav_birds = list(collection.find())
+        fav_birds_dict = [individual_serial_fav(bird) for bird in fav_birds]
+        return fav_birds_dict
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+
