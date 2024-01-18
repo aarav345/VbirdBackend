@@ -15,6 +15,7 @@ from tensorflow.keras.models import load_model
 import joblib
 from pydub import AudioSegment
 from pydub.utils import audioop
+from pymongo import ASCENDING
 
 
 router = APIRouter() 
@@ -208,18 +209,15 @@ async def get_bird_audio(audio_name: str):
 @router.post("/favourite/{bird_name}/{user_name}")
 async def post_favourite(bird_name: str, user_name: str):
     try:
-        # Dynamically create a collection based on user_name
         user_collection_name = f"{user_name}_favourites"
         collection = db[user_collection_name]
-
-        # Create a document to insert into the user-specific collection
-        document = {"bird": bird_name, "user": user_name}
-        
-        # Insert the document into the user-specific collection
-        result = await collection.insert_one(document)
-        
-        # Return a response indicating success
+        collection.create_index([("bird", ASCENDING)], unique=True)
+        document = {"bird": bird_name}
+        result = collection.insert_one(document)
         return JSONResponse(content={"status": "success", "document_id": str(result.inserted_id)})
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        if "E11000 duplicate key" in str(e):
+            raise HTTPException(status_code=400, detail="Duplicate entry")
+        else:
+            raise HTTPException(status_code=500, detail=str(e))
