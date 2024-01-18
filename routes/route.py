@@ -218,6 +218,6 @@ async def post_favourite(bird_name: str, user_name: str):
 
     except Exception as e:
         if "E11000 duplicate key" in str(e):
-            raise HTTPException(status_code=400, detail="Duplicate entry")
+            return JSONResponse(content={"status" : "data already present"})
         else:
             raise HTTPException(status_code=500, detail=str(e))
