@@ -1,4 +1,5 @@
 import requests
+import base64
 
 bird_info_data = {
      "Asian Koel": {
@@ -303,13 +304,20 @@ for bird_name, bird_info in bird_info_data.items():
 
     if response.status_code == 404:
         # Bird data does not exist, so send the POST request to add it
-        response = requests.post(url, json={
+        image_url = bird_info["Image"]
+        image_response = requests.get(image_url)
+        if image_response.status_code == 200:
+            image_base64 = base64.b64encode(image_response.content).decode('utf-8')
+
+            response = requests.post(url, json={
             "name": bird_name,
             "scientificName": bird_info["Scientific Name"],
             "description": bird_info["Description"],
             "location": bird_info["Location"],
-            "imageUri" : bird_info["Image"]
+            "imageUri" : image_base64,
         })
+
+        
 
         print(f"Data for {bird_name} added to the database.")
         
