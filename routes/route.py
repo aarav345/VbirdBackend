@@ -1,7 +1,7 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from fastapi.responses import JSONResponse, FileResponse
 from models.bird_info import Bird_info
-from config.database import collection_name
+from config.database import collection_name, db
 from schemas.schemas import list_serial, individual_serial
 from pymongo.errors import DuplicateKeyError
 import os
@@ -15,6 +15,7 @@ from tensorflow.keras.models import load_model
 import joblib
 from pydub import AudioSegment
 from pydub.utils import audioop
+
 
 router = APIRouter() 
 
@@ -207,7 +208,18 @@ async def get_bird_audio(audio_name: str):
 @router.post("/favourite/{bird_name}/{user_name}")
 async def post_favourite(bird_name: str, user_name: str):
     try:
-        results = {"bird": bird_name, "user": user_name}
-        return JSONResponse(content=results)
+        # Dynamically create a collection based on user_name
+        user_collection_name = f"{user_name}_favourites"
+        collection = db[user_collection_name]
+
+        # Create a document to insert into the user-specific collection
+        document = {"bird": bird_name, "user": user_name}
+        
+        # Insert the document into the user-specific collection
+        result = await collection.insert_one(document)
+        
+        # Return a response indicating success
+        return JSONResponse(content={"status": "success", "document_id": str(result.inserted_id)})
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
