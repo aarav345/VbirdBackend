@@ -1,4 +1,8 @@
 import requests
+from rembg import remove
+from PIL import Image
+import urllib.request
+from io import BytesIO
 import base64
 
 bird_info_data = {
@@ -293,28 +297,45 @@ bird_info_data = {
 }
 
 
+def remove_background_and_encode(url):
+    
+    response = urllib.request.urlopen(url)
+    image_bytes = BytesIO(response.read())
+    img = Image.open(image_bytes)
+    img_with_alpha = remove(img)
+    output_bytes = BytesIO()
+    img_with_alpha.save(output_bytes, format='PNG')
+    encoded_image = base64.b64encode(output_bytes.getvalue()).decode('utf-8')
+
+    return encoded_image
+
+
+
+
+
+
 
 
 # Assuming your FastAPI server is running at http://localhost:8000
 url = "http://localhost:8000/add_bird"
 
 for bird_name, bird_info in bird_info_data.items():
-    # Check if the bird data already exists in the MongoDB database
+    
     response = requests.get(f"http://localhost:8000/get_bird/{bird_name}")
 
     if response.status_code == 404:
-        # Bird data does not exist, so send the POST request to add it
+        
         image_url = bird_info["Image"]
         image_response = requests.get(image_url)
         if image_response.status_code == 200:
-            image_base64 = base64.b64encode(image_response.content).decode('utf-8')
+            remove_bg_encode = remove_background_and_encode(image_url)
 
             response = requests.post(url, json={
             "name": bird_name,
             "scientificName": bird_info["Scientific Name"],
             "description": bird_info["Description"],
             "location": bird_info["Location"],
-            "imageUri" : image_base64,
+            "imageUri" : remove_bg_encode,
         })
 
         

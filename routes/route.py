@@ -201,3 +201,11 @@ async def get_bird_audio(audio_name: str):
     
     else:
         raise HTTPException(status_code=404, detail="audio not found")
+    
+
+
+@router.post("/favourite/{bird_name}/{user_name}")
+async def post_favourite(bird_name: str, user_name: str):
+    results = {"bird": bird_name, "user" : user_name}
+    return JSONResponse()
+
