@@ -244,4 +244,18 @@ async def get_favourite(user_name: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@router.delete("/delete_favourite_birds/{user_name}/{bird_name}")
+async def del_favourite(user_name: str, bird_name: str):
+    user_collection_name = f"{user_name}_favourites"
+    collection = db[user_collection_name]
+    deleted_item = collection.find_one_and_delete({"bird": bird_name})
+
+    if deleted_item is not None:
+        if '_id' in deleted_item:
+            deleted_item['_id'] = str(deleted_item['_id'])
+        return deleted_item
+    else:
+        raise HTTPException(status_code=404, detail="Item not found")
+
+
 
