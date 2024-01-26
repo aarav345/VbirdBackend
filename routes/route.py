@@ -182,9 +182,13 @@ async def process_audio(audio_file: UploadFile):
     with open("uploaded_audio.wav", "wb") as f:
         f.write(audio_file.file.read())
 
-    bird = create_csv_for_audio_file(file_path)
+    audio = AudioSegment.from_file(file_path)
+    audio.export("uploaded_audio.mp3", format="mp3")
+
+    bird = create_csv_for_audio_file("uploaded_audio.mp3")
 
     os.remove(file_path)
+    os.remove("uploaded_audio.mp3")
 
     results = {"result": bird}
     return JSONResponse(content=results)
