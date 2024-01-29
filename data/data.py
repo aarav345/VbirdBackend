@@ -600,17 +600,17 @@ bird_info_data = {
 
 }
 
-def encode_audio(audio_file_path):
-    # Load the audio file using pydub
-    audio = AudioSegment.from_file(audio_file_path)
+# def encode_audio(audio_file_path):
+#     # Load the audio file using pydub
+#     audio = AudioSegment.from_file(audio_file_path)
 
-    # Convert audio to raw PCM format
-    pcm_data = audio.raw_data
+#     # Convert audio to raw PCM format
+#     pcm_data = audio.raw_data
 
-    # Encode the raw PCM data in base64
-    encoded_audio = base64.b64encode(pcm_data).decode('utf-8')
+#     # Encode the raw PCM data in base64
+#     encoded_audio = base64.b64encode(pcm_data).decode('utf-8')
 
-    return encoded_audio
+#     return encoded_audio
 
 
 def encode_image(url, max_size=(300, 300)):
