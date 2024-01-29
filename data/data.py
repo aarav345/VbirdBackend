@@ -613,25 +613,34 @@ bird_info_data = {
 #     return encoded_audio
 
 
-def encode_image(url, max_size=(300, 300)):
+# def encode_image(url, max_size=(300, 300)):
+#     response = urllib.request.urlopen(url)
+#     image_bytes = BytesIO(response.read())
+
+#     # Open the image using Pillow
+#     image = Image.open(image_bytes)
+
+#     # Resize the image while maintaining the aspect ratio
+#     image.thumbnail(max_size)
+
+#     # Convert the image to bytes
+#     output_bytes = BytesIO()
+#     image.save(output_bytes, format="JPEG")  # You can choose another format if needed
+
+#     # Encode the resized image in base64
+#     encoded_image = base64.b64encode(output_bytes.getvalue()).decode('utf-8')
+
+#     return encoded_image
+
+
+def encode_image(url):
     response = urllib.request.urlopen(url)
     image_bytes = BytesIO(response.read())
 
-    # Open the image using Pillow
-    image = Image.open(image_bytes)
-
-    # Resize the image while maintaining the aspect ratio
-    image.thumbnail(max_size)
-
-    # Convert the image to bytes
-    output_bytes = BytesIO()
-    image.save(output_bytes, format="JPEG")  # You can choose another format if needed
-
-    # Encode the resized image in base64
-    encoded_image = base64.b64encode(output_bytes.getvalue()).decode('utf-8')
+    # Encode the image in base64 without resizing
+    encoded_image = base64.b64encode(image_bytes.getvalue()).decode('utf-8')
 
     return encoded_image
-
 
 
 # Assuming your FastAPI server is running at http://localhost:8000
