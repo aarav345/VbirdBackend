@@ -8,7 +8,7 @@ def individual_serial(bird_info) -> dict:
         "scientificName": str(bird_info["scientificName"]),
         "description": str(bird_info["description"]),
         "location" : str(bird_info["location"]),
-        # "audio" : str(bird_info["audio"]),
+        "audio" : str(bird_info["audio"]),
         "imageUri": str(bird_info["imageUri"]),
         "video" : str(bird_info["video"])
 

@@ -600,17 +600,11 @@ bird_info_data = {
 
 }
 
-# def encode_audio(audio_file_path):
-#     # Load the audio file using pydub
-#     audio = AudioSegment.from_file(audio_file_path)
-
-#     # Convert audio to raw PCM format
-#     pcm_data = audio.raw_data
-
-#     # Encode the raw PCM data in base64
-#     encoded_audio = base64.b64encode(pcm_data).decode('utf-8')
-
-#     return encoded_audio
+def audio_to_base64(file_path):
+    with open(file_path, 'rb') as audio_file:
+        audio_content = audio_file.read()
+        encoded_audio = base64.b64encode(audio_content).decode('utf-8')
+        return encoded_audio
 
 
 # def encode_image(url, max_size=(300, 300)):
@@ -636,8 +630,6 @@ bird_info_data = {
 def encode_image(url):
     response = urllib.request.urlopen(url)
     image_bytes = BytesIO(response.read())
-
-    # Encode the image in base64 without resizing
     encoded_image = base64.b64encode(image_bytes.getvalue()).decode('utf-8')
 
     return encoded_image
@@ -658,7 +650,7 @@ for bird_name, bird_info in bird_info_data.items():
 
         audio_file_path = os.path.join(selected_audio_folder, f"{bird_name}.mp3")
         if os.path.exists(audio_file_path):
-            # audio_encode = encode_audio(audio_file_path)
+            audio_encode = audio_to_base64(audio_file_path)
 
             response = requests.post(url, json={
                 "name": bird_name,
@@ -668,7 +660,7 @@ for bird_name, bird_info in bird_info_data.items():
                 "scientificName": bird_info["Scientific Name"],
                 "description": bird_info["Description"],
                 "location": bird_info["Location"],
-                # "audio": audio_encode,
+                "audio": audio_encode,
                 "imageUri": image_encode,
                 "video": bird_info["Video"]
             })
