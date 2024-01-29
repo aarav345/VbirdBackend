@@ -11,7 +11,7 @@ class Bird_info(BaseModel):
     scientificName: str
     description:str
     location:str
-    audio:str
+    # audio:str
     imageUri: str
     video:str
 

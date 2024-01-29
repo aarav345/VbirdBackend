@@ -258,6 +258,17 @@ async def del_favourite(user_name: str, bird_name: str):
         return deleted_item
     else:
         raise HTTPException(status_code=404, detail="Item not found")
+    
+    
+    
+
+# @router.post("/add_audio") 
+# async def add_audio():
+#     collection = db["audio_data"]
+#     with open(file_path, 'rb') as audio_file:
+#         audio_content = audio_file.read()
+#         encoded_audio = base64.b64encode(audio_content).decode('utf-8')
+#         return encoded_audio
 
 
 
